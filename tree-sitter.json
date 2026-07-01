@@ -1,0 +1,42 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "nbcl",
+      "camelcase": "Nbcl",
+      "title": "Nbcl",
+      "scope": "source.nbcl",
+      "file-types": [
+        "nbcl"
+      ],
+      "injection-regex": "^nbcl$",
+      "class-name": "TreeSitterNbcl"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Tree sitter for Node Based Configuration Language (NBCL)",
+    "authors": [
+      {
+        "name": "Byson94",
+        "email": "byson94wastaken@gmail.com",
+        "url": "https://byson94.is-a.dev"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/nbcl-lang/tree-sitter-nbcl",
+      "funding": "https://ko-fi.com/byson94"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "java": false,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true,
+    "zig": false
+  }
+}
