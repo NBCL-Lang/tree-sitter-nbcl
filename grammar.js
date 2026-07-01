@@ -18,6 +18,7 @@ export default grammar({
       $.function_call,
       $.if_stmt,
       $.match_stmt,
+      $.import_stmt,
       $.loops,
       $.standalone_kw
     ),
@@ -74,12 +75,27 @@ export default grammar({
     for_loop: $ => seq("for", $.identifier, "in", $._expression, $.block),
     while_loop: $ => seq("while", $._expression, $.block),
 
+    // imports 
+    import_stmt: $ => seq(
+      "import",
+      $.string,
+      "as",
+      $.identifier,
+      optional(seq(
+        "{",
+        choice(
+          repeat($.identifier),
+          "*",
+        ),
+        "}"
+      )),
+    ),
+
     // standalone keywords
     standalone_kw: $ => choice("return"),
 
     // data and values
     _expression: $ => choice(
-      $.identifier,
       $.data_type,
       $.identifier,
       $.binary_expression

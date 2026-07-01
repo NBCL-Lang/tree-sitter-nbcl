@@ -43,6 +43,10 @@
           "named": true
         },
         {
+          "type": "import_stmt",
+          "named": true
+        },
+        {
           "type": "loops",
           "named": true
         },
@@ -200,6 +204,25 @@
     }
   },
   {
+    "type": "import_stmt",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "loops",
     "named": true,
     "fields": {},
@@ -256,6 +279,10 @@
         },
         {
           "type": "if_stmt",
+          "named": true
+        },
+        {
+          "type": "import_stmt",
           "named": true
         },
         {
@@ -350,11 +377,19 @@
     "named": false
   },
   {
+    "type": "*",
+    "named": false
+  },
+  {
     "type": "+",
     "named": false
   },
   {
     "type": "=",
+    "named": false
+  },
+  {
+    "type": "as",
     "named": false
   },
   {
@@ -383,6 +418,10 @@
   },
   {
     "type": "if",
+    "named": false
+  },
+  {
+    "type": "import",
     "named": false
   },
   {
