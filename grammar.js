@@ -17,7 +17,6 @@ export default grammar({
       $.function_definition,
       $.function_call,
       $.if_stmt,
-      $.else_stmt,
       $.match_stmt,
       $.loops,
       $.standalone_kw
