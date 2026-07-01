@@ -84,11 +84,17 @@ export default grammar({
       optional(seq(
         "{",
         choice(
-          repeat($.identifier),
+          $.import_list,
           "*",
         ),
         "}"
       )),
+    ),
+
+    import_list: $ => seq(
+      $.identifier,
+      repeat(seq(",", $.identifier)),
+      optional(",") 
     ),
 
     // standalone keywords
