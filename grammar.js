@@ -10,32 +10,58 @@
 export default grammar({
   name: "nbcl",
 
+  extras: $ => [/\s/, $.comment],
+
+  conflicts: $ => [
+    [$._definition, $.node_block],
+    [$._definition, $._primary_expr],
+    [$.function_call, $._primary_expr],
+    [$.node_invocation, $._primary_expr],
+    [$.node_invocation, $.literal],
+    [$.node_block, $.map],
+    [$.import_stmt],
+    [$.block, $.map]
+  ],
+
   rules: {
     source_file: $ => repeat($._definition),
+    
     _definition: $ => choice(
       $.variable_declaration,
       $.function_definition,
       $.function_call,
-      $.if_stmt,
-      $.match_stmt,
+      $.node_invocation,
+      $.if_expr,
+      $.match_expr,
       $.import_stmt,
+      $.import_lib_stmt,
       $.loops,
-      $.standalone_kw
+      $.component,
+      $.standalone_kw,
+      $._expression
     ),
 
     // Variable and function calls
     variable_declaration: $ => seq(
       choice("let", "const", "set"),
-      $.identifier,
-      "=",
+      $._assignable_lhs,
+      choice("+=", "-=", "*=", "/=", "="),
       $._expression
+    ),
+
+    _assignable_lhs: $ => seq(
+      $._primary_expr,
+      repeat(choice(
+        seq(choice(".", "?."), $._snake_ident),
+        seq("[", $._expression, "]"),
+      )),
     ),
 
     function_definition: $ => seq(
       "fn",
-      $.identifier,
+      $._snake_ident,
       "(",
-      optional($.identifier),
+      optional($._snake_ident),
       ")",
       $.block
     ),
@@ -47,32 +73,78 @@ export default grammar({
     ),
 
     function_call: $ => seq(
-      $.identifier,
+      $._snake_ident,
       "(",
       optional($._expression),
       ")",
     ),
 
-    // conditionals
-    if_stmt: $ => prec(1, seq(
-      "if", 
-      $._expression, 
-      $.block, 
-      optional($.else_stmt)
-    )),
-    
-    else_stmt: $ => seq(
-      "else",
-      choice(
-        $.block,
-        $.if_stmt
-      )
+    // Nodes
+    node_invocation: $ => seq(
+      $._pascal_ident,
+      optional(choice($.string, $._postfix_expr, $._snake_ident)),
+      $.node_block
     ),
-    match_stmt: $ => seq("match", $.identifier, $.block),
+
+    node_block: $ => seq(
+      "{",
+      repeat(choice(
+        $.map_pair,
+        $.node_invocation,
+        $._definition
+      )),
+      "}"
+    ),
+
+    // component
+    component: $ => seq(
+      "component",
+      $._pascal_ident,
+      $.component_params,
+      $.node_block
+    ),
+    
+    component_params: $ => seq(
+      "(",
+      optional(choice(
+        $.component_param_list,
+        seq("any", ":", $._snake_ident)
+      )),
+      ")"
+    ),
+    
+    component_param_list: $ => seq(
+      $._snake_ident,
+      repeat(seq(",", $._snake_ident)),
+      optional(",")
+    ),
+
+    // conditionals
+    if_expr: $ => prec(1, seq(
+      "if",
+      $._expression,
+      $.block,
+      repeat(seq("else", "if", $._expression, $.block)),
+      optional(seq("else", $.block))
+    )),
+
+    match_expr: $ => seq(
+      "match",
+      $._expression,
+      "{",
+      repeat1($.match_arm),
+      "}",
+    ),
+
+    match_arm: $ => seq(
+      choice("_", $.literal, $._snake_ident),
+      "=>",
+      choice($.block, seq($._expression, optional(","))),
+    ),
     
     // loops
     loops: $ => choice($.for_loop, $.while_loop),
-    for_loop: $ => seq("for", $.identifier, "in", $._expression, $.block),
+    for_loop: $ => seq("for", $._snake_ident, "in", $._expression, $.block),
     while_loop: $ => seq("while", $._expression, $.block),
 
     // imports 
@@ -80,7 +152,7 @@ export default grammar({
       "import",
       $.string,
       "as",
-      $.identifier,
+      $._snake_ident,
       optional(seq(
         "{",
         choice(
@@ -92,60 +164,130 @@ export default grammar({
     ),
 
     import_list: $ => seq(
-      $.identifier,
-      repeat(seq(",", $.identifier)),
+      choice($._snake_ident, $._pascal_ident),
+      repeat(seq(",", choice($._snake_ident, $._pascal_ident))),
       optional(",") 
+    ),
+
+    import_lib_stmt: $ => seq(
+      "import",
+      $._snake_ident,
+      ".",
+      $._snake_ident
     ),
 
     // standalone keywords
     standalone_kw: $ => choice("return"),
 
-    // data and values
+    // expressions
+    range_expr: $ => prec(1, seq($._expression, choice("..=", ".."), $._expression)),
+
     _expression: $ => choice(
-      $.data_type,
-      $.identifier,
       $.binary_expression,
-      $.array,
-      $.map
+      $.unary_expression,
+      $._postfix_expr,
     ),
-    binary_expression: $ => prec.left(seq(
-      $._expression,
-      "+",
-      $._expression
-    )),
-    data_type: $ => choice(
-      "true", 
-      "false",
-      "null",
-      $.number,
+
+    unary_expression: $ => choice(
+      prec.left(9, seq("!", $._expression)),
+      prec.left(9, seq("-", $._expression)),
+    ),
+
+    binary_expression: $ => choice(
+      prec.left(8, seq($._expression, choice("*", "/", "%"), $._expression)),
+      prec.left(7, seq($._expression, choice("+", "-"), $._expression)),
+      prec.left(6, seq($._expression, choice("==", "!=", "<=", ">=", "<", ">"), $._expression)),
+      prec.left(5, seq($._expression, "&&", $._expression)),
+      prec.left(4, seq($._expression, "||", $._expression)),
+    ),
+
+    _postfix_expr: $ => choice(
+      $._primary_expr,
+      prec(10, seq($._postfix_expr, choice(".", "?."), $._snake_ident)),
+      prec(10, seq($._postfix_expr, "[", $._expression, "]")),
+      prec(10, seq($._postfix_expr, $.call_args)),
+    ),
+
+    call_args: $ => seq(
+      "(",
+      optional(seq($._expression, repeat(seq(",", $._expression)))),
+      ")",
+    ),
+
+    _primary_expr: $ => choice(
+      $.literal,
+      $.lambda_expr,
+      $.if_expr,
+      $.match_expr,
+      seq("(", $._expression, ")"),
+      $._snake_ident,
+    ),
+
+    lambda_expr: $ => seq(
+      "|",
+      optional(seq($._snake_ident, repeat(seq(",", $._snake_ident)))),
+      "|",
+      choice($.block, $._expression),
+    ),
+
+    // literals
+    literal: $ => choice(
+      $.float,
+      $.integer,
+      $.boolean,
+      $.null,
       $.string,
+      $.array,
+      $.map,
     ),
+
+    integer: $ => /-?[0-9]+/,
+    float: $ => /-?[0-9]+\.[0-9]+/,
+    boolean: $ => choice("true", "false"),
+    null: $ => "null",
+
+    string: $ => seq(
+      optional(choice("f", "r")),
+      choice(
+        seq('"', repeat(choice(/[^"\\]/, $.escape_sequence)), '"'),
+        seq("'", repeat(choice(/[^'\\]/, $.escape_sequence)), "'"),
+      ),
+    ),
+
+    escape_sequence: $ => /\\[ntr\\'""u][0-9a-fA-F]{0,4}/,
+
     array: $ => seq(
       "[",
       optional(seq(
-        $._expression,
-        repeat(seq(",", $._expression)),
-        optional(",")
+        choice($.spread, $._expression),
+        repeat(seq(",", choice($.spread, $._expression))),
+        optional(","),
       )),
-      "]"
+      "]",
     ),
+
+    spread: $ => seq("...", $._expression),
 
     map: $ => seq(
       "{",
-      repeat($.map_pair),
+      repeat(choice(
+        $.map_pair,
+        $.spread,
+      )),
       "}"
     ),
+
     map_pair: $ => seq(
-      $.identifier,
+      $._snake_ident,
       "=",
       $._expression
     ),
-    string: $ => seq(
-      '"',
-      /[^"\n]*/,
-      '"'
+    
+    comment: $ => choice(
+      /#[^\n]*/,
+      seq("#-", repeat(choice(/.[^-]*/, /-[^#]/)), "-#"),
     ),
-    identifier: $ => /[a-zA-Z][a-zA-Z0-9_]*/,
-    number: $ => /[0-9]+/
+    _snake_ident: $ => /[a-z_][a-zA-Z0-9_]*/,
+    _pascal_ident: $ => /[A-Z][a-zA-Z0-9_]*/
   }
 });
