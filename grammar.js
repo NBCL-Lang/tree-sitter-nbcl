@@ -104,7 +104,9 @@ export default grammar({
     _expression: $ => choice(
       $.data_type,
       $.identifier,
-      $.binary_expression
+      $.binary_expression,
+      $.array,
+      $.map
     ),
     binary_expression: $ => prec.left(seq(
       $._expression,
@@ -117,6 +119,26 @@ export default grammar({
       "null",
       $.number,
       $.string,
+    ),
+    array: $ => seq(
+      "[",
+      optional(seq(
+        $._expression,
+        repeat(seq(",", $._expression)),
+        optional(",")
+      )),
+      "]"
+    ),
+
+    map: $ => seq(
+      "{",
+      repeat($.map_pair),
+      "}"
+    ),
+    map_pair: $ => seq(
+      $.identifier,
+      "=",
+      $._expression
     ),
     string: $ => seq(
       '"',

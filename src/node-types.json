@@ -1,12 +1,16 @@
 [
   {
-    "type": "binary_expression",
+    "type": "array",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
+        {
+          "type": "array",
+          "named": true
+        },
         {
           "type": "binary_expression",
           "named": true
@@ -17,6 +21,41 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "map",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "binary_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "data_type",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "map",
           "named": true
         }
       ]
@@ -112,6 +151,10 @@
       "required": true,
       "types": [
         {
+          "type": "array",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -126,6 +169,10 @@
         {
           "type": "identifier",
           "named": true
+        },
+        {
+          "type": "map",
+          "named": true
         }
       ]
     }
@@ -139,6 +186,10 @@
       "required": true,
       "types": [
         {
+          "type": "array",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -148,6 +199,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "map",
           "named": true
         }
       ]
@@ -181,6 +236,10 @@
       "required": true,
       "types": [
         {
+          "type": "array",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -198,6 +257,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "map",
           "named": true
         }
       ]
@@ -255,6 +318,52 @@
         },
         {
           "type": "while_loop",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "map",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "map_pair",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "map_pair",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "data_type",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "map",
           "named": true
         }
       ]
@@ -342,6 +451,10 @@
       "required": true,
       "types": [
         {
+          "type": "array",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -351,6 +464,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "map",
           "named": true
         }
       ]
@@ -365,6 +482,10 @@
       "required": true,
       "types": [
         {
+          "type": "array",
+          "named": true
+        },
+        {
           "type": "binary_expression",
           "named": true
         },
@@ -378,6 +499,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "map",
           "named": true
         }
       ]
@@ -409,6 +534,14 @@
   },
   {
     "type": "=",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
     "named": false
   },
   {
