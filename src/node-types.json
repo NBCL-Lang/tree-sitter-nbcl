@@ -32,6 +32,10 @@
           "named": true
         },
         {
+          "type": "snake_ident",
+          "named": true
+        },
+        {
           "type": "spread",
           "named": true
         },
@@ -48,7 +52,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "binary_expression",
@@ -72,6 +76,10 @@
         },
         {
           "type": "match_expr",
+          "named": true
+        },
+        {
+          "type": "snake_ident",
           "named": true
         },
         {
@@ -142,6 +150,10 @@
           "named": true
         },
         {
+          "type": "snake_ident",
+          "named": true
+        },
+        {
           "type": "standalone_kw",
           "named": true
         },
@@ -194,6 +206,10 @@
           "named": true
         },
         {
+          "type": "snake_ident",
+          "named": true
+        },
+        {
           "type": "unary_expression",
           "named": true
         }
@@ -221,6 +237,10 @@
         {
           "type": "node_block",
           "named": true
+        },
+        {
+          "type": "pascal_ident",
+          "named": true
         }
       ]
     }
@@ -228,7 +248,17 @@
   {
     "type": "component_param_list",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "snake_ident",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "component_params",
@@ -240,6 +270,10 @@
       "types": [
         {
           "type": "component_param_list",
+          "named": true
+        },
+        {
+          "type": "snake_ident",
           "named": true
         }
       ]
@@ -282,6 +316,10 @@
           "named": true
         },
         {
+          "type": "snake_ident",
+          "named": true
+        },
+        {
           "type": "unary_expression",
           "named": true
         }
@@ -294,7 +332,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "binary_expression",
@@ -321,6 +359,10 @@
           "named": true
         },
         {
+          "type": "snake_ident",
+          "named": true
+        },
+        {
           "type": "unary_expression",
           "named": true
         }
@@ -332,11 +374,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
           "type": "block",
+          "named": true
+        },
+        {
+          "type": "snake_ident",
           "named": true
         }
       ]
@@ -379,6 +425,10 @@
           "named": true
         },
         {
+          "type": "snake_ident",
+          "named": true
+        },
+        {
           "type": "unary_expression",
           "named": true
         }
@@ -388,12 +438,36 @@
   {
     "type": "import_lib_stmt",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "snake_ident",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "import_list",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "pascal_ident",
+          "named": true
+        },
+        {
+          "type": "snake_ident",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "import_stmt",
@@ -405,6 +479,10 @@
       "types": [
         {
           "type": "import_list",
+          "named": true
+        },
+        {
+          "type": "snake_ident",
           "named": true
         },
         {
@@ -420,7 +498,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "binary_expression",
@@ -448,6 +526,10 @@
         },
         {
           "type": "match_expr",
+          "named": true
+        },
+        {
+          "type": "snake_ident",
           "named": true
         },
         {
@@ -540,7 +622,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "binary_expression",
@@ -567,6 +649,10 @@
           "named": true
         },
         {
+          "type": "snake_ident",
+          "named": true
+        },
+        {
           "type": "unary_expression",
           "named": true
         }
@@ -579,7 +665,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "binary_expression",
@@ -607,6 +693,10 @@
         },
         {
           "type": "match_expr",
+          "named": true
+        },
+        {
+          "type": "snake_ident",
           "named": true
         },
         {
@@ -650,6 +740,10 @@
         },
         {
           "type": "match_expr",
+          "named": true
+        },
+        {
+          "type": "snake_ident",
           "named": true
         },
         {
@@ -724,6 +818,10 @@
           "named": true
         },
         {
+          "type": "snake_ident",
+          "named": true
+        },
+        {
           "type": "standalone_kw",
           "named": true
         },
@@ -772,6 +870,14 @@
         },
         {
           "type": "node_block",
+          "named": true
+        },
+        {
+          "type": "pascal_ident",
+          "named": true
+        },
+        {
+          "type": "snake_ident",
           "named": true
         },
         {
@@ -847,6 +953,10 @@
           "named": true
         },
         {
+          "type": "snake_ident",
+          "named": true
+        },
+        {
           "type": "standalone_kw",
           "named": true
         },
@@ -867,7 +977,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "binary_expression",
@@ -891,6 +1001,10 @@
         },
         {
           "type": "match_expr",
+          "named": true
+        },
+        {
+          "type": "snake_ident",
           "named": true
         },
         {
@@ -926,7 +1040,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "binary_expression",
@@ -950,6 +1064,10 @@
         },
         {
           "type": "match_expr",
+          "named": true
+        },
+        {
+          "type": "snake_ident",
           "named": true
         },
         {
@@ -965,7 +1083,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "binary_expression",
@@ -989,6 +1107,10 @@
         },
         {
           "type": "match_expr",
+          "named": true
+        },
+        {
+          "type": "snake_ident",
           "named": true
         },
         {
@@ -1032,6 +1154,10 @@
         },
         {
           "type": "match_expr",
+          "named": true
+        },
+        {
+          "type": "snake_ident",
           "named": true
         },
         {
@@ -1246,6 +1372,10 @@
     "named": true
   },
   {
+    "type": "pascal_ident",
+    "named": true
+  },
+  {
     "type": "r",
     "named": false
   },
@@ -1256,6 +1386,10 @@
   {
     "type": "set",
     "named": false
+  },
+  {
+    "type": "snake_ident",
+    "named": true
   },
   {
     "type": "true",

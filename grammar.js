@@ -52,16 +52,16 @@ export default grammar({
     _assignable_lhs: $ => seq(
       $._primary_expr,
       repeat(choice(
-        seq(choice(".", "?."), $._snake_ident),
+        seq(choice(".", "?."), $.snake_ident),
         seq("[", $._expression, "]"),
       )),
     ),
 
     function_definition: $ => seq(
       "fn",
-      $._snake_ident,
+      $.snake_ident,
       "(",
-      optional($._snake_ident),
+      optional($.snake_ident),
       ")",
       $.block
     ),
@@ -73,7 +73,7 @@ export default grammar({
     ),
 
     function_call: $ => seq(
-      $._snake_ident,
+      $.snake_ident,
       "(",
       optional($._expression),
       ")",
@@ -81,8 +81,8 @@ export default grammar({
 
     // Nodes
     node_invocation: $ => seq(
-      $._pascal_ident,
-      optional(choice($.string, $._postfix_expr, $._snake_ident)),
+      $.pascal_ident,
+      optional(choice($.string, $._postfix_expr, $.snake_ident)),
       $.node_block
     ),
 
@@ -99,7 +99,7 @@ export default grammar({
     // component
     component: $ => seq(
       "component",
-      $._pascal_ident,
+      $.pascal_ident,
       $.component_params,
       $.node_block
     ),
@@ -108,14 +108,14 @@ export default grammar({
       "(",
       optional(choice(
         $.component_param_list,
-        seq("any", ":", $._snake_ident)
+        seq("any", ":", $.snake_ident)
       )),
       ")"
     ),
     
     component_param_list: $ => seq(
-      $._snake_ident,
-      repeat(seq(",", $._snake_ident)),
+      $.snake_ident,
+      repeat(seq(",", $.snake_ident)),
       optional(",")
     ),
 
@@ -137,14 +137,14 @@ export default grammar({
     ),
 
     match_arm: $ => seq(
-      choice("_", $.literal, $._snake_ident),
+      choice("_", $.literal, $.snake_ident),
       "=>",
       choice($.block, seq($._expression, optional(","))),
     ),
     
     // loops
     loops: $ => choice($.for_loop, $.while_loop),
-    for_loop: $ => seq("for", $._snake_ident, "in", $._expression, $.block),
+    for_loop: $ => seq("for", $.snake_ident, "in", $._expression, $.block),
     while_loop: $ => seq("while", $._expression, $.block),
 
     // imports 
@@ -152,7 +152,7 @@ export default grammar({
       "import",
       $.string,
       "as",
-      $._snake_ident,
+      $.snake_ident,
       optional(seq(
         "{",
         choice(
@@ -164,16 +164,16 @@ export default grammar({
     ),
 
     import_list: $ => seq(
-      choice($._snake_ident, $._pascal_ident),
-      repeat(seq(",", choice($._snake_ident, $._pascal_ident))),
+      choice($.snake_ident, $.pascal_ident),
+      repeat(seq(",", choice($.snake_ident, $.pascal_ident))),
       optional(",") 
     ),
 
     import_lib_stmt: $ => seq(
       "import",
-      $._snake_ident,
+      $.snake_ident,
       ".",
-      $._snake_ident
+      $.snake_ident
     ),
 
     // standalone keywords
@@ -203,7 +203,7 @@ export default grammar({
 
     _postfix_expr: $ => choice(
       $._primary_expr,
-      prec(10, seq($._postfix_expr, choice(".", "?."), $._snake_ident)),
+      prec(10, seq($._postfix_expr, choice(".", "?."), $.snake_ident)),
       prec(10, seq($._postfix_expr, "[", $._expression, "]")),
       prec(10, seq($._postfix_expr, $.call_args)),
     ),
@@ -220,12 +220,12 @@ export default grammar({
       $.if_expr,
       $.match_expr,
       seq("(", $._expression, ")"),
-      $._snake_ident,
+      $.snake_ident,
     ),
 
     lambda_expr: $ => seq(
       "|",
-      optional(seq($._snake_ident, repeat(seq(",", $._snake_ident)))),
+      optional(seq($.snake_ident, repeat(seq(",", $.snake_ident)))),
       "|",
       choice($.block, $._expression),
     ),
@@ -278,7 +278,7 @@ export default grammar({
     ),
 
     map_pair: $ => seq(
-      $._snake_ident,
+      $.snake_ident,
       "=",
       $._expression
     ),
@@ -287,7 +287,7 @@ export default grammar({
       /#[^\n]*/,
       seq("#-", repeat(choice(/.[^-]*/, /-[^#]/)), "-#"),
     ),
-    _snake_ident: $ => /[a-z_][a-zA-Z0-9_]*/,
-    _pascal_ident: $ => /[A-Z][a-zA-Z0-9_]*/
+    snake_ident: $ => /[a-z_][a-zA-Z0-9_]*/,
+    pascal_ident: $ => /[A-Z][a-zA-Z0-9_]*/
   }
 });
