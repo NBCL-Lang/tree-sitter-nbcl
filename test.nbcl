@@ -5,3 +5,4 @@ fn test(test) {
   const b = 3
   set a = 4
 }
+

@@ -1,21 +1,23 @@
-; === Keywords ===
+; == Keywords ==
 ["let" "const" "set" "fn" "component" "if" "else" "match" "for" "in" "while" "return" "import" "as"] @keyword
 
-; === Identifiers and Definitions ===
-(function_definition (snake_ident) @function.definition)
-(function_call (snake_ident) @function)
+; == Nodes and Components ==
 (node_invocation (pascal_ident) @type)
 (component (pascal_ident) @type)
 
-; Properties and keys
+; == Props and keys ==
 (map_pair (snake_ident) @variable.other.member)
 (import_list [ (snake_ident) (pascal_ident) ] @variable)
 
-; Fallback identifiers
+; == Identifiers ==
 (snake_ident) @variable
 (pascal_ident) @type
 
-; === Literals ===
+; == Functions and Calls ==
+(function_definition . (snake_ident) @function.definition)
+(function_call . (snake_ident) @function)
+
+; == Literals ==
 (integer) @number
 (float) @number
 (boolean) @boolean
@@ -23,11 +25,11 @@
 (string) @string
 (escape_sequence) @constant.character.escape
 
-; === Structuring Elements ===
+; == Structuring Elements ==
 (comment) @comment
 (spread) @keyword.operator
 
-; === Operators and Punctuation ===
+; == Operators and Punctuation ==
 ["=" "+=" "-=" "*=" "/="] @keyword.operator
 ["+" "-" "*" "/" "%" "==" "!=" "<" ">" "<=" ">=" "&&" "||" "!" "=>"] @operator
 ; highlight '..' and '..='
