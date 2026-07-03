@@ -10,7 +10,7 @@
 export default grammar({
   name: "nbcl",
 
-  extras: $ => [/\s/],
+  extras: $ => [/\s/, $.comment],
 
   conflicts: $ => [
     [$._definition, $.node_block],
@@ -27,7 +27,6 @@ export default grammar({
     source_file: $ => repeat($._definition),
     
     _definition: $ => choice(
-      $.comment,
       $.variable_declaration,
       $.function_definition,
       $.function_call,
@@ -246,16 +245,15 @@ export default grammar({
     float: $ => /-?[0-9]+\.[0-9]+/,
     boolean: $ => choice("true", "false"),
     null: $ => "null",
-
     string: $ => seq(
       optional(choice("f", "r")),
       choice(
-        seq('"', repeat(choice(/[^"\\]/, $.escape_sequence)), '"'),
-        seq("'", repeat(choice(/[^'\\]/, $.escape_sequence)), "'"),
+        seq('"', repeat(choice(token.immediate(prec(1, /[^"\\]+/)), $.escape_sequence)), '"'),
+        seq("'", repeat(choice(token.immediate(prec(1, /[^'\\]+/)), $.escape_sequence)), "'"),
       ),
     ),
 
-    escape_sequence: $ => /\\[ntr\\'""u][0-9a-fA-F]{0,4}/,
+    escape_sequence: $ => token.immediate(seq('\\', /[ntr\\'""u]/, repeat(/[0-9a-fA-F]/))),
 
     array: $ => seq(
       "[",

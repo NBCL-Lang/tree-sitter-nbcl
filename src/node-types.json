@@ -106,10 +106,6 @@
           "named": true
         },
         {
-          "type": "comment",
-          "named": true
-        },
-        {
           "type": "component",
           "named": true
         },
@@ -223,6 +219,7 @@
   {
     "type": "comment",
     "named": true,
+    "extra": true,
     "fields": {}
   },
   {
@@ -773,10 +770,6 @@
           "named": true
         },
         {
-          "type": "comment",
-          "named": true
-        },
-        {
           "type": "component",
           "named": true
         },
@@ -913,10 +906,6 @@
         },
         {
           "type": "call_args",
-          "named": true
-        },
-        {
-          "type": "comment",
           "named": true
         },
         {
