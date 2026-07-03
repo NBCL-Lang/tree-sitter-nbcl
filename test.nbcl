@@ -1,8 +1,13 @@
 print("Hello, World!")
+let a = "# hi\n"
+let b = 'hi'
 
+# hi
 fn test(test) {
   let a = 2
   const b = 3
   set a = 4
+
+  # eh
 }
 

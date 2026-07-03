@@ -10,7 +10,7 @@
 export default grammar({
   name: "nbcl",
 
-  extras: $ => [/\s/, $.comment],
+  extras: $ => [/\s/],
 
   conflicts: $ => [
     [$._definition, $.node_block],
@@ -27,6 +27,7 @@ export default grammar({
     source_file: $ => repeat($._definition),
     
     _definition: $ => choice(
+      $.comment,
       $.variable_declaration,
       $.function_definition,
       $.function_call,
