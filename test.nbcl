@@ -11,3 +11,6 @@ fn test(test) {
   # eh
 }
 
+#- i -# hah
+
+let a = [ #- i -# 2 ]
