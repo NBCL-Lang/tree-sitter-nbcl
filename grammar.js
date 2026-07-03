@@ -286,7 +286,7 @@ export default grammar({
       /#[^\n]*/,
       token(prec(2, seq('#-', repeat(choice(/[^-]/, seq('-', /[^#]/))), '-#'))),
     ),
-    snake_ident: $ => /[a-z_][a-zA-Z0-9_]*/,
+    snake_ident: $ => /[a-zA-Z_][a-zA-Z0-9_]*/,
     pascal_ident: $ => /[A-Z][a-zA-Z0-9_]*/
   }
 });
