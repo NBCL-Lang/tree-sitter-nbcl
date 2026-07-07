@@ -33,6 +33,6 @@
 ["=" "+=" "-=" "*=" "/="] @keyword.operator
 ["+" "-" "*" "/" "%" "==" "!=" "<" ">" "<=" ">=" "&&" "||" "!" "=>"] @operator
 ; highlight '..' and '..='
-(_ [ "." ] @operator (#match? @operator "^\\.\\.=?$"))
+(_ [ "." ] @operator (#match? @operator "^\\.\\.[=]?$"))
 ["." "?."] @punctuation.delimiter
 ["," "(" ")" "[" "]" "{" "}"] @punctuation.bracket
